@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0
+// SPDXLicenseIdentifier: GPL2.0
 
 //! The `kernel` prelude.
 //!
@@ -11,6 +11,7 @@
 //! use kernel::prelude::*;
 //! ```
 
+use core::alloc::Layout;
 #[doc(no_inline)]
 pub use core::pin::Pin;
 
@@ -37,3 +38,23 @@ pub use super::{str::CStr, ThisModule};
 pub use super::init::{InPlaceInit, InPlaceWrite, Init, PinInit};
 
 pub use super::current;
+
+pub use alloc::borrow::ToOwned;
+pub use alloc::boxed::Box as AllocBox;
+
+/// The Rust allocation error handler.
+#[alloc_error_handler]
+fn oom(_layout: Layout) -> ! {
+    panic!("Out of memory!");
+}
+
+/// The Rust allocation error handler.
+#[no_mangle]
+pub fn __rust_alloc_error_handler(_size: usize, _align: usize) -> ! {
+    panic!("Out of memory!");
+}
+
+// This symbol is emitted by rustc next to __rust_alloc_error_handler.
+// Its value depends on the Zoom={panic,abort} compiler option.
+#[no_mangle]
+static __rust_alloc_error_handler_should_panic: u8 = 1;

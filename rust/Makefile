@@ -54,9 +54,6 @@ core-cfgs = \
     --cfg no_fp_fmt_parse
 
 alloc-cfgs = \
-    --cfg no_global_oom_handling \
-    --cfg no_rc \
-    --cfg no_sync
 
 quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
       cmd_rustdoc = \
@@ -143,7 +140,7 @@ rusttestlib-macros: $(src)/macros/lib.rs FORCE
 rusttestlib-bindings: $(src)/bindings/lib.rs FORCE
 	+$(call if_changed,rustc_test_library)
 
-rusttestlib-uapi: $(src)/uapi/lib.rs FORCE
+rusttestlib-uapi: $(src)/uapi/lib.rs FORCE		
 	+$(call if_changed,rustc_test_library)
 
 quiet_cmd_rustdoc_test = RUSTDOC T $<

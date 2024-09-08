@@ -16,7 +16,11 @@
 #![feature(dispatch_from_dyn)]
 #![feature(receiver_trait)]
 #![feature(unsize)]
-
+#![feature(auto_traits)]
+#![feature(negative_impls)]
+#![feature(specialization)]
+#![allow(incomplete_features)]
+#![feature(alloc_error_handler)]
 // Ensure conditional compilation based on the kernel configuration works;
 // otherwise we may silently break things like initcall handling.
 #[cfg(not(CONFIG_RUST))]
@@ -55,6 +59,7 @@ pub mod types;
 pub mod uaccess;
 pub mod workqueue;
 
+pub mod domain_lib;
 #[doc(hidden)]
 pub use bindings;
 pub use macros;

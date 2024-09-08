@@ -2,7 +2,8 @@
 
 //! Rust minimal sample.
 
-use kernel::prelude::*;
+use alloc::string::String;
+use kernel::{prelude::*};
 
 module! {
     type: RustMinimal,
@@ -25,6 +26,11 @@ impl kernel::Module for RustMinimal {
         numbers.push(72, GFP_KERNEL)?;
         numbers.push(108, GFP_KERNEL)?;
         numbers.push(200, GFP_KERNEL)?;
+
+        let t = AllocBox::new(42);
+        let name = String::from("Rust minimal sample");
+        pr_info!("My name is {}\n", name);
+        pr_info!("The Boxed number is {}\n", *t);
 
         Ok(RustMinimal { numbers })
     }
